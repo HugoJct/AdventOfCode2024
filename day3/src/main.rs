@@ -10,6 +10,7 @@ enum Instruction {
 }
 
 fn main() {
+    let mut enabled: bool = true;
     let total: u32 = fs::read_to_string("res/input")
         .unwrap()
         .lines()
@@ -32,9 +33,22 @@ fn main() {
                         _ => None,
                     }
                 })
-                .map(|instr| match instr {
-                    Instruction::Multiply(x, y) => x * y,
-                    _ => 0,
+                .filter_map(|instr| match instr {
+                    Instruction::Multiply(x, y) => {
+                        if enabled {
+                            Some(x * y)
+                        } else {
+                            None
+                        }
+                    }
+                    Instruction::Do => {
+                        enabled = true;
+                        None
+                    }
+                    Instruction::Dont => {
+                        enabled = false;
+                        None
+                    }
                 })
                 .sum::<u32>()
         })
