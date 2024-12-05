@@ -18,23 +18,25 @@ fn main() {
     let mut total: u32 = 0;
 
     for list in lists.lines() {
+
         let numbers : Vec<usize> = list.split(",").filter_map(|x| match x.parse::<usize>() {
             Ok(x) => Some(x),
             Err(_) => None,
         }).collect();
+
         let mut numbers_sorted: Vec<usize> = numbers.clone();
         numbers_sorted.sort_by(|x, y| comps[*x][*y]);
 
-        let mut sorted: bool = true;
+        let mut sorted: bool = false;
         for i in 0..numbers_sorted.len() {
             if numbers[i] != numbers_sorted[i] {
-                sorted = false;
+                sorted = true;
                 break;
             }
         }
+
         if sorted {
-            println!("{:?}", numbers);
-            total += numbers[numbers.len() / 2] as u32;
+            total += numbers_sorted[numbers_sorted.len() / 2] as u32;
         }
     }
 
