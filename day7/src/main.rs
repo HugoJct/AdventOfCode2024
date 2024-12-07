@@ -30,6 +30,16 @@ fn main() {
     println!("{sum}");
 }
 
+fn next_ten(a: u64) -> u64 {
+    if a < 10 {
+        10
+    } else if a < 100 {
+        100
+    } else {
+        1000
+    }
+}
+
 fn verify(total: u64, operands: &[u64]) -> bool {
     if operands.len() == 1 {
         return total == operands[0];
@@ -38,6 +48,7 @@ fn verify(total: u64, operands: &[u64]) -> bool {
 
     let mut mul: bool = false;
     let mut add: bool = false;
+    let mut concat: bool = false;
 
     let operand = operands[operands.len() - 1];
 
@@ -49,5 +60,9 @@ fn verify(total: u64, operands: &[u64]) -> bool {
         add =  verify(total - operand, &operands[..(operands.len() - 1)]);
     } 
 
-    return mul || add;
+    if total >= operand && (total - operand) % next_ten(operand) == 0 {
+        concat = verify((total - operand) / next_ten(operand), &operands[..(operands.len() - 1)]);
+    }
+
+    return mul || add || concat;
 }
