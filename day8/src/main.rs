@@ -50,18 +50,29 @@ fn main() {
         // println!("miny {miny} maxy {maxy}");
 
         if x1 <= x2 && y1 <= y2 {
-            if *x1 >= difx && *y1 >= dify {
-                grid_antinode[x1 - difx][y1 - dify] = '#';
+            let mut i: usize = 0;
+            while *x1 >= difx * i && *y1 >= dify * i {
+                grid_antinode[x1 - i * difx][y1 - i * dify] = '#';
+                i+= 1;
             }
-            if x2 + difx < grid_antinode.len() && y2 + dify < grid_antinode.len() {
-                grid_antinode[x2 + difx][y2 + dify] = '#';
+
+            i = 0;
+            while x2 + difx * i < grid_antinode.len() && y2 + dify * i < grid_antinode.len() {
+                grid_antinode[x2 + difx * i][y2 + dify * i] = '#';
+                i += 1;
             }
         } else {
-            if x2 + difx < grid_antinode.len() && dify <= *y2 {
-                grid_antinode[x2 + difx][y2 - dify] = '#';
+            let mut i: usize = 0;
+
+            while x2 + difx * i < grid_antinode.len() && dify * i <= *y2 {
+                grid_antinode[x2 + difx * i][y2 - dify * i] = '#';
+                i+= 1;
             }
-            if y1 + dify < grid_antinode.len() && difx <= *x1 {
-                grid_antinode[x1 - difx][y1 + dify] = '#';
+
+            i = 0;
+            while y1 + dify * i < grid_antinode.len() && difx * i <= *x1 {
+                grid_antinode[x1 - difx * i][y1 + dify * i] = '#';
+                i+=1;
             }
         }
     }
